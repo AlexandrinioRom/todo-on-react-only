@@ -1,8 +1,17 @@
-import React, { useState } from 'react';
 import { PropTypes, func } from 'prop-types';
+import React, { useState } from 'react';
 
-export default function Task({ status, remove, complete, change }) {
+export default function Task({
+  info,
+  remove,
+  change,
+  complete,
+}) {
   const [changeMode, setChangeMode] = useState(false);
+
+  const inputRef = (node) => {
+    if (node !== null) node.focus();
+  };
 
   const completeHandler = (event) => {
     complete(Number(event.target.parentNode.id));
@@ -12,8 +21,14 @@ export default function Task({ status, remove, complete, change }) {
     remove(Number(event.target.parentNode.id));
   };
 
-  const changeHandler = (event) => {
-    change(Number(event.target.parentNode.id), event.target.value);
+  const keyDownHandler = (event) => {
+    if (event.code === 'Enter') {
+      change(Number(event.target.parentNode.id), event.target.value);
+      setChangeMode(!changeMode);
+    }
+    if (event.code === 'Escape') {
+      setChangeMode(!changeMode);
+    }
   };
 
   const changeModeHandler = () => {
@@ -21,19 +36,21 @@ export default function Task({ status, remove, complete, change }) {
   };
 
   return (
-    <div id={status.id}>
+    <div id={info.id}>
       <input
         type="checkbox"
-        defaultChecked={status.completed}
         onClick={completeHandler}
+        defaultChecked={info.completed}
       />
       {changeMode ? (
         <input
-          onChange={changeHandler}
+          ref={inputRef}
+          onKeyDown={keyDownHandler}
           onBlur={changeModeHandler}
+          defaultValue={info.value}
         />
       ) : (
-        <span onDoubleClick={changeModeHandler}>{status.value}</span>
+        <span onDoubleClick={changeModeHandler}>{info.value}</span>
       )}
       <button
         type="button"
@@ -46,7 +63,7 @@ export default function Task({ status, remove, complete, change }) {
 }
 
 Task.propTypes = {
-  status: PropTypes.instanceOf(Object).isRequired,
+  info: PropTypes.instanceOf(Object).isRequired,
   complete: func.isRequired,
   remove: func.isRequired,
   change: func.isRequired,

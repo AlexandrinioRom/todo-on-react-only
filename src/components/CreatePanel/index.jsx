@@ -4,7 +4,8 @@ import { func } from 'prop-types';
 export default function CreatePanel({ create }) {
   const [text, setText] = useState('');
 
-  const createTask = () => {
+  const createTask = (event) => {
+    if (event.code !== 'Enter' && event.type !== 'click') return;
     create({ id: Date.now(), value: text, completed: false });
     setText('');
   };
@@ -18,6 +19,7 @@ export default function CreatePanel({ create }) {
       <input
         value={text}
         onChange={changeHandler}
+        onKeyDown={createTask}
       />
       <button
         type="button"

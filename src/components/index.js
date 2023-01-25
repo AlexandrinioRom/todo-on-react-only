@@ -4,5 +4,8 @@ import TodoList from './TodoList';
 import Task from './Task';
 
 export {
-  CreatePanel, FilterPanel, TodoList, Task,
+  CreatePanel,
+  FilterPanel,
+  TodoList,
+  Task,
 };

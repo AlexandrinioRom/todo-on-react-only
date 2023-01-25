@@ -3,7 +3,12 @@ import { PropTypes } from 'prop-types';
 
 import Task from '../Task';
 
-export default function TodoList({ tasks, remove, complete, change }) {
+export default function TodoList({
+  tasks,
+  remove,
+  change,
+  complete,
+}) {
   return (
     <div>
       {tasks.map(({ id, value, completed }) => (
@@ -12,7 +17,7 @@ export default function TodoList({ tasks, remove, complete, change }) {
           remove={remove}
           change={change}
           complete={complete}
-          status={{ id, value, completed }}
+          info={{ id, value, completed }}
         />
       ))}
     </div>

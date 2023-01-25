@@ -57,7 +57,10 @@ export default function App() {
     <div className="wrapper">
       <div className="app">
         <CreatePanel create={create} />
-        <FilterPanel changeFilter={changeFilter} />
+        <FilterPanel
+          changeFilter={changeFilter}
+          currentFilterType={currentFilterType}
+        />
         <TodoList
           tasks={filter(currentFilterType)}
           remove={remove}
